@@ -1,15 +1,17 @@
-export interface Option {
+import React from "react";
+
+export interface DropdownOption {
   label: string;
   value: string;
 }
 
 export interface DropdownProps {
-  options: Option[];
-  onSelect: (option: Option) => void;
+  options: DropdownOption[];
+  onSelect: (option: DropdownOption) => void;
   className?: string;
   placeholder?: string;
-  renderOption?: (option: Option) => React.ReactNode;
-  renderSelected?: (option: Option) => React.ReactNode;
-  handleAsyncSearch?: (query: string) => Promise<Option[]>;
-  handleSearch?: (query: string) => Option[];
+  renderOption?: (option: DropdownOption ) => React.ReactNode;
+  renderSelected?: (option: DropdownOption ) => React.ReactNode;
+  handleAsyncSearch?: (query: string) => Promise<DropdownOption []>;
+  handleSearch?: (query: string) => DropdownOption [];
 }

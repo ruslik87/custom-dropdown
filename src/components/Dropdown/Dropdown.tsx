@@ -1,5 +1,5 @@
 import { FC, useState, useRef, useEffect } from "react";
-import { DropdownProps, Option } from "./Dropdown.types";
+import { DropdownProps, DropdownOption } from "./Dropdown.types";
 import clsx from "clsx";
 import { useDebounce } from "../../hooks/useDebounce";
 
@@ -16,7 +16,9 @@ export const Dropdown: FC<DropdownProps> = ({
   handleSearch,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
+  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
+    null
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredOptions, setFilteredOptions] = useState(options);
 
@@ -24,7 +26,7 @@ export const Dropdown: FC<DropdownProps> = ({
 
   const debouncedSearchQuery = useDebounce(setSearchQuery, 500);
 
-  const handleSelectOption = (option: Option) => {
+  const handleSelectOption = (option: DropdownOption) => {
     setSelectedOption(option);
     onSelect(option);
     setIsOpen(false);
@@ -75,7 +77,7 @@ export const Dropdown: FC<DropdownProps> = ({
         )
       );
     }
-  }, [searchQuery, options, handleAsyncSearch]);
+  }, [handleAsyncSearch, handleSearch, options, searchQuery]);
 
   return (
     <div className={clsx(styles.dropdown, className)} ref={dropdownRef}>

@@ -5,16 +5,34 @@
     "plugin:react/jsx-runtime"
   ],
   "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
     "jest": true
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "settings": {
     "react": {
-      "version": "detect"
+      "version": "detect",
+      "pragma": "React",
+      "pragmaFrag": "React.Fragment",
+      "runtime": "automatic"
     }
   },
+  "overrides": [
+    {
+      "files": ["*.tsx", "*.ts"],
+      "rules": {
+        "no-undef": "off"
+      }
+    }
+  ],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-unused-vars": "warn"
+  },
   "parserOptions": {
-    "project": "client/tsconfig.json"
+    "project": "./tsconfig.json"
   }
 }
