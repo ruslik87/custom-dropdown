@@ -23,6 +23,7 @@ export const Dropdown: FC<DropdownProps> = ({
   const [filteredOptions, setFilteredOptions] = useState(options);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isFocused = useRef(false);
 
   const debouncedSearchQuery = useDebounce(setSearchQuery, 500);
 
@@ -60,7 +61,11 @@ export const Dropdown: FC<DropdownProps> = ({
   }, []);
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    if (isFocused.current) {
+      return (isFocused.current = false);
+    }
+
+    setIsOpen((prev) => !prev);
   };
 
   useEffect(() => {
@@ -79,11 +84,26 @@ export const Dropdown: FC<DropdownProps> = ({
     }
   }, [handleAsyncSearch, handleSearch, options, searchQuery]);
 
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (
+      e.relatedTarget &&
+      !dropdownRef.current?.contains(e.relatedTarget as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div className={clsx(styles.dropdown, className)} ref={dropdownRef}>
       <div
+        tabIndex={1}
         className={clsx(styles.selected, !selectedOption && styles.placeholder)}
         onClick={toggleDropdown}
+        onFocus={() => {
+          isFocused.current = true;
+          setIsOpen((prev) => !prev);
+        }}
+        onBlur={handleBlur}
       >
         {renderDropdownContent()}
         <span className={styles.arrow} />
